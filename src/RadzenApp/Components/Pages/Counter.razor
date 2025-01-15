@@ -1,0 +1,23 @@
+﻿@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+
+<RadzenText TextStyle="TextStyle.H3">Counter</RadzenText>
+
+<RadzenText>Current count: @currentCount</RadzenText>
+
+@* <button class="btn btn-primary" @onclick="IncrementCount">Click me</button> *@
+
+<RadzenButton Click="IncrementCount">
+    Click Me
+</RadzenButton>
+
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
