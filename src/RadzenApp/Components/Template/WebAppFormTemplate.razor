@@ -1,0 +1,45 @@
+﻿<RadzenFormField Text="App Name">
+    <RadzenTextBox @bind-value="WebApp.AppName" />
+</RadzenFormField>
+
+<RadzenFormField Text="App URL">
+    <RadzenTextBox @bind-value="WebApp.AppUrl" />
+</RadzenFormField>
+
+<RadzenFormField Text="App Description">
+    <RadzenTextBox @bind-value="WebApp.AppDescription" />
+</RadzenFormField>
+
+@foreach (var person in WebApp.WebAppPeople)
+{
+    @if(person.Type != "Applicant")
+    {
+        <RadzenFieldset Text="@person.Type">
+            <RadzenFormField Text="Name">
+                <RadzenTextBox @bind-value="person.Name" />
+            </RadzenFormField>
+
+            <RadzenFormField Text="Department">
+                <RadzenTextBox @bind-value="person.Department" />
+            </RadzenFormField>
+
+            <RadzenFormField Text="Phone">
+                <RadzenTextBox @bind-value="person.Phone" />
+            </RadzenFormField>
+
+            <RadzenFormField Text="Email">
+                <RadzenTextBox @bind-value="person.Email" />
+            </RadzenFormField>
+
+        </RadzenFieldset>
+    }    
+}
+
+@code {
+    [Parameter]
+    public WebApp WebApp { set; get; }
+
+    
+
+}
+

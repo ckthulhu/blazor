@@ -1,0 +1,71 @@
+﻿@page "/Scan/Edit/{id:int}"
+@inherits DbContextPage
+@inject NotificationService NotificationService
+
+
+<PageTitle>Scan</PageTitle>
+
+<RadzenText TextStyle="TextStyle.H3">Scan Request</RadzenText>
+
+<RadzenTemplateForm Data="scanRequest" Submit="@((ScanRequest args) => { Submit(args); })">
+    <ScanRequestTemplate ScanRequest="scanRequest" ScanDB="scanDb" />
+
+    <RadzenButton ButtonType="ButtonType.Submit">
+        Submit
+    </RadzenButton>
+</RadzenTemplateForm>
+
+
+@code {
+
+    [Parameter]
+    public int id {set;get;}
+
+    ScanRequest scanRequest;
+
+    //List<WebApp> webAppList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        scanRequest = scanDb.ScanRequests.Include(x => x.Technologies).Where(x => x.ScanRequestId == id).SingleOrDefault();
+
+
+
+    }
+
+
+    private void Submit(ScanRequest scanRequest)
+    {
+        try
+        {
+            // scanRequest.CreateTs = DateTime.Now;
+            // scanRequest.EditTs = DateTime.Now;
+
+            // webApp.CreateBy = "temp";
+            // webApp.EditBy = "temp";
+
+
+            scanDb.Update(scanRequest);
+            scanDb.SaveChanges();
+
+
+            NotificationService.Notify(new NotificationMessage
+                {
+                    Detail = "Success",
+                    Severity = NotificationSeverity.Success
+                });
+
+        }
+        catch(Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage{
+                Detail = "There was an Error",
+                Severity = NotificationSeverity.Error
+            });
+        }
+    }
+
+}
+

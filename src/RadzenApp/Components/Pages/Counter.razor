@@ -2,22 +2,78 @@
 
 <PageTitle>Counter</PageTitle>
 
+<WorkflowStepComponent WorkflowStatus="workflowStatus" />
+
+
 <RadzenText TextStyle="TextStyle.H3">Counter</RadzenText>
 
 <RadzenText>Current count: @currentCount</RadzenText>
 
 @* <button class="btn btn-primary" @onclick="IncrementCount">Click me</button> *@
 
-<RadzenButton Click="IncrementCount">
-    Click Me
+<RadzenButton Click="Draft">
+    Draft
+</RadzenButton>
+<RadzenButton Click="Submitted">
+    Submitted
+</RadzenButton>
+<RadzenButton Click="Rejected">
+    Rejected
+</RadzenButton>
+<RadzenButton Click="ScanInProgress">
+    Scan In Progress
+</RadzenButton>
+<RadzenButton Click="ScanComplete">
+    Scan Complete
 </RadzenButton>
 
 
 @code {
     private int currentCount = 0;
 
+    private int workflowStatus = 100;
+
+    protected override async Task OnInitializedAsync()
+    {
+        workflowStatus = (int)Status.Draft;
+
+    }
+
+
     private void IncrementCount()
     {
         currentCount++;
+
     }
+
+
+    private void Draft()
+    {
+        workflowStatus = (int)Status.Draft;
+    }
+
+    private void Submitted()
+    {
+        workflowStatus = (int)Status.Submitted;
+    }
+
+    private void Rejected()
+    {
+        workflowStatus = (int)Status.Rejected;
+    }
+
+    private void ScanInProgress()
+    {
+        workflowStatus = (int)Status.ScanInProgress;
+    }
+
+    private void ScanComplete()
+    {
+        workflowStatus = (int)Status.ScanComplete;
+
+    }
+
+    
+
 }
+

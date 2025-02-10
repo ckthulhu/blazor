@@ -33,7 +33,8 @@
         </div>
     </RadzenBody>
     <RadzenFooter>
-        Footer
+        <div class="d-inline-block">Version: </div> <div id="version" class="d-inline-block">@version</div>
+        <div id="theme-version" class="d-none">@themeVersion</div>
     </RadzenFooter>
 </RadzenLayout>
 
@@ -45,6 +46,8 @@
 
 @code {
     bool sidebar1Expanded = true;
+    string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+    string themeVersion = typeof(Radzen.Colors).Assembly.GetName().Version.ToString();
 }
 
 

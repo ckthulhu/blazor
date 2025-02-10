@@ -1,0 +1,73 @@
+﻿@page "/WebApp/New"
+@inherits DbContextPage
+@inject NotificationService NotificationService
+
+
+<PageTitle>Web App</PageTitle>
+
+<RadzenText TextStyle="TextStyle.H3">Web App</RadzenText>
+
+<RadzenTemplateForm Data="webApp" Submit="@((WebApp args) => { Submit(args); })"  >
+    <WebAppFormTemplate WebApp="webApp" />
+
+    <RadzenButton ButtonType="ButtonType.Submit">
+        Submit
+    </RadzenButton>
+</RadzenTemplateForm>
+
+
+@code {
+    WebApp webApp;
+
+    //List<WebApp> webAppList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        webApp = new();
+
+
+        webApp.WebAppPeople.Add(new WebAppPerson { PersonNumber = 1, Type = "Applicant" });
+        webApp.WebAppPeople.Add(new WebAppPerson { PersonNumber = 2, Type = "Owner" });
+        webApp.WebAppPeople.Add(new WebAppPerson { PersonNumber = 3, Type = "Maintainer" });
+        webApp.WebAppPeople.Add(new WebAppPerson { PersonNumber = 4, Type = "Developer" });
+        webApp.WebAppPeople.Add(new WebAppPerson { PersonNumber = 5, Type = "AltDeveloper" });
+
+
+    }
+
+
+    private void Submit(WebApp app)
+    {
+        try
+        {
+            webApp.CreateTs = DateTime.Now;
+            webApp.EditTs = DateTime.Now;
+
+            webApp.CreateBy = "temp";
+            webApp.EditBy = "temp";
+
+
+            scanDb.Add(webApp);
+            scanDb.SaveChanges();
+
+
+            NotificationService.Notify(new NotificationMessage
+                {
+                    Detail = "Success",
+                    Severity = NotificationSeverity.Success
+                });
+
+        }
+        catch(Exception ex)
+        {
+            NotificationService.Notify(new NotificationMessage{
+                Detail = "There was an Error",
+                Severity = NotificationSeverity.Error
+            });
+        }
+    }
+
+}
+

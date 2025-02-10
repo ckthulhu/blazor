@@ -1,0 +1,44 @@
+﻿<RadzenRow>
+    <RadzenColumn>
+        <RadzenFormField Text="Deployment" class="w-100">
+            <RadzenTextBox @bind-value="ScanRequest.DeploymentLocation" />
+        </RadzenFormField>
+    </RadzenColumn>
+
+    <RadzenColumn>
+        <RadzenFormField Text="Technology" class="w-100">
+            <RadzenDropDown @bind-Value="ScanRequest.Technologies" Data="technologyList" TextProperty="@nameof(Technology.Name)"
+                                    Chips="true" Multiple="true" AllowClear="true" MaxSelectedLabels="5" />
+        </RadzenFormField>
+    </RadzenColumn>
+
+
+</RadzenRow>
+
+
+
+
+@code {
+    [Parameter]
+    public ScanRequest ScanRequest { set; get; }
+
+    [Parameter]
+    public ScanContext ScanDB { set; get; }
+
+    IQueryable<Technology> technologyList;
+
+    
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        technologyList = ScanDB.Technologies;
+
+
+
+    }
+
+}
+

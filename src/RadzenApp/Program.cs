@@ -1,7 +1,22 @@
+using Azure.Identity;
+using Microsoft.EntityFrameworkCore;
 using Radzen;
 using RadzenApp.Components;
+using RadzenApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json")
+    .Build();
+
+
+// Entity Framework
+builder.Services.AddDbContextFactory<ScanContext>(option =>
+    option.UseSqlServer(configuration["ConnectionStrings:Test"]));
+//builder.Services.AddDbContextFactory<ALTCADContext>(option =>
+//    option.UseSqlServer(configuration["ConnectionStrings:ALTCAD"]));
+
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

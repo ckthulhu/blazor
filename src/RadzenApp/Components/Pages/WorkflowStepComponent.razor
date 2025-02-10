@@ -1,0 +1,80 @@
+﻿<div class="rz-steps">
+    <ul role="tablist">
+        <li class="rz-steps-item @draftClass" tabindex="0">
+            <div class="rz-menuitem-link">
+                <span class="rz-steps-number">1</span>
+                <span class="rz-steps-title">Draft</span>
+            </div>
+        </li>
+        <li class="rz-steps-item @submittedClass" tabindex="0">
+            <div class="rz-menuitem-link">
+                <span class="rz-steps-number">2</span>
+                <span class="rz-steps-title">Submitted</span>
+            </div>
+        </li>
+        <li class="rz-steps-item @scanProgressClass" tabindex="0">
+            <div class="rz-menuitem-link">
+                <span class="rz-steps-number">3</span>
+                <span class="rz-steps-title">Scan In Progress</span>
+            </div>
+        </li>
+        <li class="rz-steps-item @scanCompleteClass" tabindex="0">
+            <div class="rz-menuitem-link">
+                <span class="rz-steps-number">4</span>
+                <span class="rz-steps-title">Scan Complete</span>
+            </div>
+        </li>
+    </ul>
+
+</div>
+
+
+@code {
+    [Parameter]
+    public int WorkflowStatus { set; get; }
+
+    string draftClass;
+    string submittedClass;
+    string scanProgressClass;
+    string scanCompleteClass;
+
+
+    protected override void OnParametersSet()
+    {
+        draftClass = "rz-state-disabled";
+        submittedClass = "rz-state-disabled";
+        scanProgressClass = "rz-state-disabled";
+        scanCompleteClass = "rz-state-disabled";
+
+
+        var enumStatus = (Status)WorkflowStatus;
+
+        switch (enumStatus)
+        {
+            case Status.Draft:
+            case Status.Rejected:
+                draftClass = "rz-state-highlight rz-steps-current";
+                break;
+            case Status.Submitted:
+                draftClass = "rz-state-highlight";
+                submittedClass = "rz-state-highlight rz-steps-current";
+                break;
+            case Status.ScanInProgress:
+                draftClass = "rz-state-highlight";
+                submittedClass = "rz-state-highlight";
+                scanProgressClass = "rz-state-highlight rz-steps-current";
+                break;
+            case Status.ScanComplete:
+                draftClass = "rz-state-highlight";
+                submittedClass = "rz-state-highlight";
+                scanProgressClass = "rz-state-highlight";
+                scanCompleteClass = "rz-state-highlight rz-steps-current";
+                break;
+
+        }
+
+
+    }
+
+}
+
